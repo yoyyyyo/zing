@@ -53,7 +53,9 @@
                 } else alert('unsuccessful')
             }
 
-            boop.onclick = () => safe(zing, addy.value, cost.value, type.value);
+            boop.onclick = () => ready
+                                 ? alert('no wallet connected')
+                                 : safe(zing, addy.value, cost.value, type.value)
         </script>
     </body>
 </html>
