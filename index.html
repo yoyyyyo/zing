@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>zing</title>
+        <style>
+            body { max-width: 800px; margin: 0 auto }
+            body, input, select, button { font-family: monospace }
+            div { padding: 1em 0 0 1em }
+            button { margin-left: calc(5em + 4px) }
+        </style>
+    </head>
+    <body>
+        <h1>zing</h1>
+        forcibly send ether to any address (namely non-payable contracts)
+        <div>
+            <button id="link">connect</button> <span id="your">?</span>
+        </div>
+        <div>
+            address: <input type="text" id="addy" />
+        </div>
+
+        <div>
+            &nbsp;amount: <input type="number" id="cost" />
+            <select id="type">
+                <option value="wei">   wei </option>
+                <option value="gwe">  gwei (1e9  wei)</option>
+                <option value="sza"> szabo (1e12 wei)</option>
+                <option value="fin">finney (1e15 wei)</option>
+                <option value="eth"> ether (1e18 wei)</option>
+            </select>
+        </div>
+
+        <div>
+            <button id="boop">zing</button>
+        </div>
+
+        <script src="zing.js"></script>
+        <script>
+            let ready = false;
+            
+            link.onclick = async () => {
+                if (!window.ethereum)
+                    return alert('no window.ethereum detected. you need an injected wallet for `zing` to work');
+            
+                const wallet = await window.ethereum.request({
+                    method: 'eth_requestAccounts',
+                    params: []
+                });
+
+                if (Array.isArray(wallet) && wallet.length > 0) {
+                    ready = true;
+                    your.textContent = wallet[0]
+                } else alert('unsuccessful')
+            }
+
+            boop.onclick = () => safe(zing, addy.value, cost.value, type.value);
+        </script>
+    </body>
+</html>
